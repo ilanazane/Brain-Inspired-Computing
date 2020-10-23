@@ -46,6 +46,7 @@ ax2.plot(total_simulation,currArr,'r-');
 ax1.set_xlabel('Time');
 ax1.set_ylabel('Membrane Potential(mV)', color='g');
 ax2.set_ylabel("Current", color='r');
+ax2.set_ylim([0,I+2]);
 
 plt.title("LIF MODEL");
 
