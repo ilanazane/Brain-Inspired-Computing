@@ -22,6 +22,18 @@ currArr = np.zeros(len(total_simulation));
 #Let's use this equation to solve for each Vm at time t
 currentS = float(input("Where does your current start:"))
 stop = float(input("Where does your current end:"));
+scale = float(input("How do you want to scale your firing rate?"));
+
+def lif_firingrate_vectorized(I):
+    firingRate = scale*np.power(tau_ref - tau_m * np.log(1-(Vt/ (I * Rm))), -1);
+    firingRate = np.where(firingRate < (Vt / Rm), 0, firingRate);
+    firingRate = np.where(np.isnan(firingRate), 0, firingRate);
+    return firingRate;
+
+
+I_sp_arr = np.arange(0, I, 0.005);
+fr_arr = lif_firingrate_vectorized(I_sp_arr);
+
 
 for j in range(int(currentS / dt), int(stop / dt)):
     currArr[j] = I
@@ -36,18 +48,22 @@ for i in range(len(total_simulation)):
 
 
 
+
+
 #Plot points 
-fig, ax1 = plt.subplots();
+fig, (ax1,ax3) = plt.subplots(2);
 
 ax2 = ax1.twinx();
 ax1.plot(total_simulation,Vm,'g-');
 ax2.plot(total_simulation,currArr,'r-');
-
+ax3.plot(I_sp_arr,fr_arr, 'b-');
+ax3.set_xlabel("Current (A)");
+ax3.set_ylabel("Firing Rate (Hz)");
 ax1.set_xlabel('Time');
-ax1.set_ylabel('Membrane Potential(mV)', color='g');
-ax2.set_ylabel("Current", color='r');
+ax1.set_ylabel('Membrane Potential (mV)', color='g');
+ax2.set_ylabel("Current (A)", color='r');
 ax2.set_ylim([0,I+2]);
-
+plt.subplots_adjust(hspace = .3);
 plt.title("LIF MODEL");
 
 plt.show()
