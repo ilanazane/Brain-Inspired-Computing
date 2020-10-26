@@ -40,7 +40,7 @@ for i in range(len(total_simulation)):
 fig, ax1 = plt.subplots();
 
 ax2 = ax1.twinx();
-ax1.plot(total_simulation,Vm,'g--');
+ax1.plot(total_simulation,Vm,'g-');
 ax2.plot(total_simulation,currArr,'r-');
 
 ax1.set_xlabel('Time');
