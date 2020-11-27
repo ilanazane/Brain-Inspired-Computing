@@ -12,7 +12,7 @@ class HebbianOptim():
     Covariance rule:
     - decay = 0, 0 < mean_pre < 1, 0 < mean_post < 1
     """
-    def __init__(self, weights, lr = 0.1, normalize = False, decay = 0.0, mean_pre = 0., mean_post = 0.02):
+    def __init__(self, weights, lr = 0.1, normalize = False, decay = 0.0, mean_pre = 0., mean_post = 0.):
         super(HebbianOptim, self).__init__()
         # learning rate of each weight
         self.W = weights
@@ -54,32 +54,28 @@ class HebbianOptim():
         """
         Hebbian learning rule
         """
-        dvPre = pres - self.meanPre
+        dvPre = pres
         dvPost = posts - self.meanPost
-#         print("dv pre: " + str(dvPre))
-#         print("dv post: " + str(dvPost))
-#         input()
-        return np.outer(dvPre, dvPost) * self.A - self.decay
+
+        return np.outer(dvPre, dvPost) * self.A 
     def step(self):
         # pre synaptic firing rate
         vPre = self.preSynTrains[-1]
         # post synaptic firing rate
         vPost = self.postSynTrains[-1]
-#         vPost = np.sum(self.postSynTrains, axis = -1) / self.postSynTrains[0].shape[-1]
+        # if len(np.where(vPre>0)[0])>0:
+        #     print(vPre)
+        #     print(vPost)
+        #     input("Enter")
+
         # calculate udpate
         diff = self.dw(pres = vPre, posts = vPost)
-#         print("original weights: " + str(self.W))
-#         print("update" + str(diff))
-        # apply update
-#         self.W = self.W + diff
+        # if len(np.where(vPre>0)[0])>0:
+        #     print('Diff: ', diff)
+        #     input("Enter")
         self.W = self.__call__(diff)
-#         print("new weights: " + str(self.W))
-#         input()
-        # return expected input
-#         print("original mean pre and post: " + str(self.meanPre) + ", " + str(self.meanPost))
-        # self.meanPre = 0.05 * vPre + 0.95 * self.meanPre
-        # self.meanPost = 0.05 * vPost + 0.95 * self.meanPost
-#         print("original mean pre and post: " + str(self.meanPre) + ", " + str(self.meanPost))
-#         input()
-        return self.preSynTrains
+
+        #self.meanPre = 0.05 * vPre + 0.95 * self.meanPre
+        self.meanPost = 0.05 * vPost + 0.95 * self.meanPost
+
 
