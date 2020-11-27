@@ -20,5 +20,5 @@ for i in one_count:
 
 intervalLength = 1000
 
-rateT = 0.02 # firing rate threshold, considered as 1 if firing rate > 0.1, 0 otherwise
+rateT = 0.02 # firing rate threshold, 0.01 if OR; 0.02 if AND
 learnRate = 0.01
