@@ -13,7 +13,7 @@ aor2Loader = Bool2SpikeLoader(spiketrain_0, spiketrain_1, intervalLength, batch_
 aor2Loader.generate_data(n_features = 2, true_fun = AND)
 # setup SNN with Hebbian optimizer
 NetA = SNN_MLP(struct = [2,1], optimizer_cls = HebbianOptim, params = {\
-            "learn_rate": 0.01, "normalize": True, "mean_pre": 0, "mean_post": 0.1})
+            "learn_rate": 0.01, "normalize": True, "mean_pre": 0, "mean_post": 0.03})
 # training
 NetA.fit(data_loader = aor2Loader, params = {"epoch": 200, "epsilon": 1e-3})
 # testing
@@ -23,3 +23,15 @@ predictions = NetA.predict(testData[:,:-1,:])  # no label
 predictions = time_to_rate(predictions)
 print("Test output firing rate: " + str(predictions))
 print("Target boolean output: " + str(target[:,-1]))
+
+
+####plot raster plot
+# outplot = np.where(outSpikes>0)[1]
+# outplot = outplot.astype(float)
+# for q in range(len(outplot)):
+#     outplot[q] = (outplot[q]+1)/1000
+# #outplot = outplot.astype(float)
+# plot.eventplot(outplot, orientation = "horizontal")
+# plot.show()
+
+# input("Enter")
