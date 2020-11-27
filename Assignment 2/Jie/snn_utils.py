@@ -16,7 +16,6 @@ def time_to_rate(sTrains):
     """
     Calculate spike train firing rate
     """
-
     return np.sum(sTrains, axis = -1) / (sTrains.shape[-1])
 
 def time_to_bool(sTrains, threshold = rateT):
@@ -94,27 +93,20 @@ class Bool2SpikeLoader(object):
             self.data[i,:] = row
 
         return self.data
-    # def get_n_batch(self, batch_size = -1):
-    #     """
-    #     Set up batch size and calculate the number of batches
-    #     """
-    #     # batch size choices: 0 - entire dataset; <0 - default batch size; >0 specified batch size
-    #     if batch_size == 0:
-    #         self.batchSize = len(self.data)
-    #     elif batch_size > 0:
-    #         self.batchSize = batch_size
-    #     self.currentBatch = 0
-    #     return int(np.ceil(len(self.data) / self.batchSize))
+
     def get_batch(self, encoding = "firing_rate"):
         """
         Get batch data
         """
+        
         # Restart iteration if reaching the end of the dataset
+
         
         if self.currentBatch >= len(self.data):
             self.currentBatch = 0
         self.currentBatch = self.currentBatch + self.batchSize
         # raw data with boolean variable
+        #batchData = self.data[j: j+self.batchSize]
         batchData = self.data[self.currentBatch - self.batchSize: min(self.currentBatch, len(self.data))]
 
 
