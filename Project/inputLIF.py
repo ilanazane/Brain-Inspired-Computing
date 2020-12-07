@@ -13,14 +13,15 @@ from nengo.dists import Uniform
 
 img = r"C:\Users\User\Desktop\resizedDir2\small_i05june05_static_street_boston_p1010907.jpeg"
 
-temp=asarray(Image.open(img))
-x=temp.shape[0]
-y=temp.shape[1]*temp.shape[2]
+temp = cv2.imread(img)
 
-temp.resize((x,y)) # a 2D array
+temp = temp.reshape((temp.shape[0], -1))
+
+#temp.resize((x,y)) # a 2D array
 #print(temp)
 #Flatten image for nengo
 temp = temp.flatten();
+print(temp.size)
 
 
 #nengo 
@@ -49,7 +50,7 @@ with model:
 
 #run neuron simmulator
 with nengo.Simulator(model) as sim:  # Create the simulator
-    sim.run(1)  # Run it for 1 second
+    sim.run(10)  # Run it for 1 second
 
 
 # Plot the decoded output of the ensemble
